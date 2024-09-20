@@ -36,6 +36,11 @@ function App() {
     <>
       <Header />
       <Shop>
+        {products.map((product) => (
+          <li key={product.id}>
+            <Product {...product} />
+          </li>
+        ))}
         {/* {error ? (
           <p>{error}</p>
         ) : isLoading ? (
