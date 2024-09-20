@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { getData } from "./libs/http";
 import { Products } from "./libs/types";
 
+import Header from "./components/Header";
+import Shop from "./components/Shop";
+import Product from "./components/Product";
+
 function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<Products[]>([]);
@@ -30,14 +34,16 @@ function App() {
 
   return (
     <>
-      <h1>Redux Store</h1>
-      {error ? (
-        <p>{error}</p>
-      ) : isLoading ? (
-        <p>Loading....</p>
-      ) : (
-        <pre>{JSON.stringify(products)}</pre>
-      )}
+      <Header />
+      <Shop>
+        {/* {error ? (
+          <p>{error}</p>
+        ) : isLoading ? (
+          <p>Loading....</p>
+        ) : (
+          <pre>{JSON.stringify(products)}</pre>
+        )} */}
+      </Shop>
     </>
   );
 }
