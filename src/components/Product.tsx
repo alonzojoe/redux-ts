@@ -1,7 +1,27 @@
 import { Products as ProductProps } from "../libs/types";
+import { addToCart } from "../store/slices/cart-slice";
+import { useCartDispatch } from "../store/hooks";
 
-const Product = ({ images, title, description, price }: ProductProps) => {
-  const addToCart = () => {};
+const Product = ({
+  id,
+  images = [""],
+  title,
+  description,
+  price,
+}: ProductProps) => {
+  const dispatch = useCartDispatch();
+
+  const addItem = () => {
+    dispatch(
+      addToCart({
+        id,
+        title,
+        description,
+        price,
+        quantity: 1,
+      })
+    );
+  };
 
   return (
     <article className="product">
@@ -13,7 +33,7 @@ const Product = ({ images, title, description, price }: ProductProps) => {
           <p>{description}</p>
         </>
         <p className="product-actions">
-          <button onClick={addToCart}>Add to Cart</button>
+          <button onClick={addItem}>Add to Cart</button>
         </p>
       </div>
     </article>

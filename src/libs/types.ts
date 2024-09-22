@@ -3,10 +3,10 @@ export type Products = {
     title: string;
     price: number;
     description: string;
-    images: string[];
-    creationAt: string;
-    updatedAt: string;
-    category: Category;
+    images?: string[];
+    creationAt?: string;
+    updatedAt?: string;
+    category?: Category;
 }
 
 type Category = {
