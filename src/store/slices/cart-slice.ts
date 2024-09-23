@@ -30,7 +30,7 @@ const cartSlice = createSlice({
                 state.totalAmount += action.payload.price * action.payload.quantity
             }
 
-            state.totalAmount = parseFloat(state.totalAmount.toFixed(2))
+
         },
         removeToCart(state, action: PayloadAction<{ id: number }>) {
             const itemIndex = state.items.findIndex((item) => item.id === action.payload.id)
@@ -45,7 +45,7 @@ const cartSlice = createSlice({
                     state.totalAmount -= itemPrice
                     state.items[itemIndex].quantity--
                 }
-                state.totalAmount = parseFloat(state.totalAmount.toFixed(2))
+
 
             }
 
