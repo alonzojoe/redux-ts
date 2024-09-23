@@ -1,10 +1,29 @@
 import { useCartSelector } from "../store/hooks";
+import { useCartDispatch } from "../store/hooks";
+import { addToCart, removeToCart } from "../store/slices/cart-slice";
 const CartItems = () => {
   const { items, totalAmount } = useCartSelector((state) => state.cart);
+  const dispatch = useCartDispatch();
+
   const formattedTotalAmount = totalAmount.toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
+  const increaseQuantity = (payload: {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    quantity: number;
+  }) => {
+    dispatch(addToCart({ ...payload, quantity: 1 }));
+  };
+
+  const decreaseQuantity = (id: number) => {
+    dispatch(removeToCart({ id }));
+  };
+
   return (
     <div id="cart">
       {!!items.length ? (
@@ -17,7 +36,11 @@ const CartItems = () => {
                 <div>
                   <span>{item.title}</span>
                   <span>({formattedPrice})</span>
-                  <span> &times; {item.quantity}</span>
+                </div>
+                <div className="cart-item-actions">
+                  <button onClick={() => decreaseQuantity(item.id)}>-</button>
+                  <span>&times;{item.quantity}</span>
+                  <button onClick={() => increaseQuantity(item)}>+</button>
                 </div>
               </li>
             );
