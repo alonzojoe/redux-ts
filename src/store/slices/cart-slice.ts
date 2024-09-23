@@ -19,7 +19,7 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addToCart(state, action: PayloadAction<CartProduct>) {
+        addToCart(state, action: PayloadAction<{ id: number; title: string; description: string; price: number; quantity: number }>) {
             const itemIndex = state.items.findIndex((item) => item.id === action.payload.id)
 
             if (itemIndex >= 0) {
@@ -32,7 +32,7 @@ const cartSlice = createSlice({
 
             state.totalAmount = parseFloat(state.totalAmount.toFixed(2))
         },
-        removeToCart(state, action: PayloadAction<CartProduct>) {
+        removeToCart(state, action: PayloadAction<{ id: number }>) {
             const itemIndex = state.items.findIndex((item) => item.id === action.payload.id)
 
             if (itemIndex >= 0) {

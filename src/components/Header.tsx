@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useCartSelector } from "../store/hooks";
 import Cart from "./Cart";
 import logo from "../assets/logo.png";
 
 const Header = () => {
   const [visible, setVisible] = useState(false);
+
+  const cartLength = useCartSelector((state) => state.cart.items.length);
 
   return (
     <>
@@ -14,7 +17,7 @@ const Header = () => {
           <h1>Redux Shopping Store</h1>
         </div>
         <p>
-          <button onClick={() => setVisible(true)}>Cart (0)</button>
+          <button onClick={() => setVisible(true)}>Cart ({cartLength})</button>
         </p>
       </header>
     </>
