@@ -6,7 +6,11 @@ import logo from "../assets/logo.png";
 const Header = () => {
   const [visible, setVisible] = useState(false);
 
-  const cartLength = useCartSelector((state) => state.cart.items.length);
+  const cartLength = useCartSelector((state) =>
+    state.cart.items.reduce((value, current) => {
+      return value + current.quantity;
+    }, 0)
+  );
 
   return (
     <>
