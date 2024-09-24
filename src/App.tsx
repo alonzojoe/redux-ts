@@ -39,13 +39,13 @@ function App() {
             </li>
           ))
         )}
-        <Pagination
-          totalPages={totalItems}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
-          onChangePage={handleChangePage}
-        />
       </Shop>
+      <Pagination
+        totalPages={totalItems}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onChangePage={handleChangePage}
+      />
     </>
   );
 }

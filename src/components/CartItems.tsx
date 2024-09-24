@@ -2,7 +2,7 @@ import { useCartSelector } from "../store/hooks";
 import { useCartDispatch } from "../store/hooks";
 import { addToCart, removeToCart } from "../store/slices/cart-slice";
 const CartItems = () => {
-  const { items, totalAmount } = useCartSelector((state) => state.cart);
+  const { cartItems, totalAmount } = useCartSelector((state) => state.cart);
   const dispatch = useCartDispatch();
 
   const formattedTotalAmount = totalAmount.toLocaleString(undefined, {
@@ -26,9 +26,9 @@ const CartItems = () => {
 
   return (
     <div id="cart">
-      {!!items.length ? (
+      {!!cartItems.length ? (
         <ul id="cart-items">
-          {items.map((item) => {
+          {cartItems.map((item) => {
             const formattedPrice = `$${item.price.toFixed(2)}`;
 
             return (

@@ -6,10 +6,15 @@ type CartProduct = {
     quantity: number
 } & Products
 
+type CartItemsState = {
+    id: number; title: string; description: string; price: number; quantity: number;
+}
+
 type CartState = {
     isLoading: boolean;
     isError: string | null;
     items: CartProduct[],
+    cartItems: CartItemsState[];
     totalAmount: number
 }
 
@@ -17,6 +22,7 @@ const initialState: CartState = {
     isLoading: false,
     isError: null,
     items: [],
+    cartItems: [],
     totalAmount: 0
 }
 
@@ -25,30 +31,30 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart(state, action: PayloadAction<{ id: number; title: string; description: string; price: number; quantity: number }>) {
-            const itemIndex = state.items.findIndex((item) => item.id === action.payload.id)
+            const itemIndex = state.cartItems.findIndex((item) => item.id === action.payload.id)
 
             if (itemIndex >= 0) {
-                state.items[itemIndex].quantity++
+                state.cartItems[itemIndex].quantity++
                 state.totalAmount += action.payload.price
             } else {
-                state.items.push({ ...action.payload })
+                state.cartItems.push({ ...action.payload })
                 state.totalAmount += action.payload.price * action.payload.quantity
             }
 
 
         },
         removeToCart(state, action: PayloadAction<{ id: number }>) {
-            const itemIndex = state.items.findIndex((item) => item.id === action.payload.id)
+            const itemIndex = state.cartItems.findIndex((item) => item.id === action.payload.id)
 
             if (itemIndex >= 0) {
-                const itemPrice = state.items[itemIndex].price
+                const itemPrice = state.cartItems[itemIndex].price
 
-                if (state.items[itemIndex].quantity === 1) {
-                    state.totalAmount -= itemPrice * state.items[itemIndex].quantity
-                    state.items = state.items.filter((item) => item.id !== action.payload.id)
+                if (state.cartItems[itemIndex].quantity === 1) {
+                    state.totalAmount -= itemPrice * state.cartItems[itemIndex].quantity
+                    state.cartItems = state.cartItems.filter((item) => item.id !== action.payload.id)
                 } else {
                     state.totalAmount -= itemPrice
-                    state.items[itemIndex].quantity--
+                    state.cartItems[itemIndex].quantity--
                 }
 
 
