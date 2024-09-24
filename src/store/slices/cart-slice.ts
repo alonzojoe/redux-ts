@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { fetchProducts } from '../thunks/posts';
 import { Products } from '../../libs/types';
 
 type CartProduct = {
@@ -6,11 +7,15 @@ type CartProduct = {
 } & Products
 
 type CartState = {
+    isLoading: boolean;
+    isError: string | null;
     items: CartProduct[],
     totalAmount: number
 }
 
 const initialState: CartState = {
+    isLoading: false,
+    isError: null,
     items: [],
     totalAmount: 0
 }
@@ -51,6 +56,28 @@ const cartSlice = createSlice({
 
 
         }
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(fetchProducts.pending, (state) => {
+                state.isLoading = true
+                state.isError = null
+            })
+            .addCase(fetchProducts.fulfilled, (state, action) => {
+                const products = action.payload.map((item) => {
+                    return {
+                        ...item,
+                        quantity: 1
+                    }
+                })
+                state.isLoading = false
+                state.items = products
+            })
+            .addCase(fetchProducts.rejected, (state, action) => {
+                console.log(action)
+                state.isLoading = false;
+                state.isError = action?.error?.message || 'Something went wrong'
+            })
     }
 })
 

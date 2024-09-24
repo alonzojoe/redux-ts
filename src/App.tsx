@@ -1,53 +1,34 @@
 import { useEffect, useState } from "react";
-import { getData } from "./libs/http";
-import { Products } from "./libs/types";
+import { useCartDispatch, useCartSelector } from "./store/hooks";
+import { fetchProducts } from "./store/thunks/posts";
 
 import Header from "./components/Header";
 import Shop from "./components/Shop";
 import Product from "./components/Product";
 
 function App() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [products, setProducts] = useState<Products[]>([]);
-  const [error, setError] = useState<string>();
+  const dispatch = useCartDispatch();
+  const { items, isLoading, isError } = useCartSelector((state) => state.cart);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getData<Products[]>(
-          `https://api.escuelajs.co/api/v1/products`
-        );
-        setProducts(data);
-        console.log(data[0].title);
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
+    dispatch(fetchProducts());
   }, []);
 
   return (
     <>
       <Header />
       <Shop>
-        {products.map((product) => (
-          <li key={product.id}>
-            <Product {...product} />
-          </li>
-        ))}
-        {/* {error ? (
-          <p>{error}</p>
+        {isError ? (
+          <p style={{ color: "red" }}>{isError}</p>
         ) : isLoading ? (
-          <p>Loading....</p>
+          <p>Loading Products....</p>
         ) : (
-          <pre>{JSON.stringify(products)}</pre>
-        )} */}
+          items.map((product) => (
+            <li key={product.id}>
+              <Product {...product} />
+            </li>
+          ))
+        )}
       </Shop>
     </>
   );
