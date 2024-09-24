@@ -5,14 +5,24 @@ import { fetchProducts } from "./store/thunks/posts";
 import Header from "./components/Header";
 import Shop from "./components/Shop";
 import Product from "./components/Product";
+import Pagination from "./components/Pagination";
 
 function App() {
   const dispatch = useCartDispatch();
   const { items, isLoading, isError } = useCartSelector((state) => state.cart);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalItems = 60;
+
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, []);
+    const offset = (currentPage - 1) * itemsPerPage;
+    dispatch(fetchProducts({ offset, limit: itemsPerPage }));
+  }, [currentPage]);
+
+  const handleChangePage = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -29,6 +39,12 @@ function App() {
             </li>
           ))
         )}
+        <Pagination
+          totalPages={totalItems}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onChangePage={handleChangePage}
+        />
       </Shop>
     </>
   );

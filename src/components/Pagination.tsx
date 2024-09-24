@@ -14,7 +14,7 @@ const Pagination = ({
   const totalItems = Math.ceil(totalPages / itemsPerPage);
 
   return (
-    <div>
+    <div className="pagination">
       {Array.from({ length: totalItems }, (_, index) => (
         <button
           key={index}

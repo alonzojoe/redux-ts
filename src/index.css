@@ -250,6 +250,26 @@ h1 {
   margin-bottom: 1rem;
 }
 
+.pagination {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.pagination button {
+  background-color: #4e139b;
+  color: #fff;
+  padding: 8px 10px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #7211f5;
+  cursor: not-allowed;
+}
+
 @keyframes fade-slide-in-from-top {
   0% {
     opacity: 0;
